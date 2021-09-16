@@ -87,13 +87,11 @@ def load_data(city, month, day):
         days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
         day = days.index(day) + 1
         df = df[df['day_of_week'] == day]
-        # df = df[df['day_of_week'] == day.title()]
 
     return df
 
 
 def time_stats(df):
-
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
@@ -121,19 +119,16 @@ def station_stats(df):
     start_time = time.time()
 
     # TO DO: display most commonly used start station
-
     start_station = df['Start Station'].value_counts().idxmax()
-    print('Most Commonly used start station:', start_station)
+    print('The most common used start station:', start_station)
 
     # TO DO: display most commonly used end station
-
     end_station = df['End Station'].value_counts().idxmax()
-    print('\nMost Commonly used end station:', end_station)
+    print('The most common used end station:', end_station)
 
     # TO DO: display most frequent combination of start station and end station trip
-
     combination_station = df.groupby(['Start Station', 'End Station']).count()
-    print('\nMost Commonly used combination of start station and end station trip:', start_station, " & ", end_station)
+    print('The most common used combination of start and end stations trip:', start_station, " & ", end_station)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
@@ -151,7 +146,6 @@ def trip_duration_stats(df):
     print('Total travel time:', total_travel_time / 86400, " Days")
 
     # TO DO: display mean travel time
-
     mean_travel_time = df['Trip Duration'].mean()
     print('Mean travel time:', mean_travel_time / 60, " Minutes")
 
@@ -166,18 +160,21 @@ def user_stats(df):
     start_time = time.time()
 
     # TO DO: Display counts of user types
-
-    user_types = df['User Type'].value_counts()
+    # user_types = df['User Type'].value_counts()
     # print(user_types)
-    print('User Types:\n', user_types)
+    # print('User Types:\n', user_types)
+    try:
+        user_types = df['User Type'].value_counts()
+        print('User types:\n', user_types)
+    except KeyError:
+        print("\nUser types: There is no data for this month.")
 
     # TO DO: Display counts of gender
-
     try:
         gender_types = df['Gender'].value_counts()
-        print('\nGender Types:\n', gender_types)
+        print('\nGender types:\n', gender_types)
     except KeyError:
-        print("\nGender Types:\nNo data available for this month.")
+        print("\nGender types: There is no data for this month.")
 
     # TO DO: Display earliest, most recent, and most common year of birth
 
@@ -185,19 +182,19 @@ def user_stats(df):
         earliest_year = df['Birth Year'].min()
         print('\nEarliest Year:', earliest_year)
     except KeyError:
-        print("\nEarliest Year:\nNo data available for this month.")
+        print("\nEarliest Year:\nThere is no data for this month.")
 
     try:
         most_recent_year = df['Birth Year'].max()
-        print('\nMost Recent Year:', most_recent_year)
+        print('The most recent year:', most_recent_year)
     except KeyError:
-        print("\nMost Recent Year:\nNo data available for this month.")
+        print("The most recent year:\nThere is no data for this month.")
 
     try:
         most_common_year = df['Birth Year'].value_counts().idxmax()
-        print('\nMost Common Year:', most_common_year)
+        print('The most common year:', most_common_year)
     except KeyError:
-        print("\nMost Common Year:\nNo data available for this month.")
+        print("The most common year:\nThere is no data for this month.")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
