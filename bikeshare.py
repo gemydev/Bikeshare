@@ -124,7 +124,8 @@ def station_stats(df):
 
     # TO DO: display most frequent combination of start station and end station trip
     combination_station = df.groupby(['Start Station', 'End Station']).count()
-    print('-->> The most common used combination of start and end stations trip:', start_station, " & ", end_station)
+    print('-->> The most common used combination of start and end stations trip:',
+          start_station, " & ", end_station)
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-' * 40)
@@ -191,6 +192,18 @@ def user_stats(df):
     print('-' * 40)
 
 
+def display_data(df):
+    view_data = input('\nWould you like to view 5 rows of individual trip data? Enter yes or no\n')
+    if view_data.lower() not in ['yes', 'no']:
+        view_data = input('\nThe input is wrong , Please enter yes or no\n')
+    start_loc = 0
+    while view_data.lower() != 'no':
+        print(df.iloc[start_loc:start_loc + 5])
+        start_loc += 5
+        view_display = input("Do you wish to continue?: ").lower()
+        view_data = view_display
+
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -200,8 +213,13 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
+        display_data(df)
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
+
+        if restart.lower() not in ['yes', 'no']:
+            restart = input('\nThe input is wrong , Please enter yes or no\n')
+
         if restart.lower() != 'yes':
             break
 
